@@ -115,21 +115,17 @@ pub mod todo_operations {
         match args.get_one::<String>("priority") {
             None => {
                 for (idx, line) in reader.lines().enumerate() {
-                    match line {
-                        Ok(line) => println!("({}) - {}",idx, line),
-                        _ => (),
+                    if let Ok(line) = line {
+                        println!("({}) - {}",idx, line)
                     }
                 }
             },
             Some(_)  => {   
                 for (idx, line) in reader.lines().enumerate() {
-                    match line {
-                        Ok(line) =>  {
-                            if line.contains(format!("[PRIORITY: {}", choices[args.get_one::<String>("priority").unwrap().as_str()]).as_str()) {
-                                println!("({}) - {}",idx, line);
-                            }
-                        },
-                        _ => (),
+                    if let Ok(line) = line {
+                        if line.contains(format!("[PRIORITY: {}", choices[args.get_one::<String>("priority").unwrap().as_str()]).as_str()) {
+                            println!("({}) - {}",idx, line);
+                        }
                     }
                 }
             },
